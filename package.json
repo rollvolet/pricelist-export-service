@@ -1,0 +1,26 @@
+{
+  "name": "pricelist-export-service",
+  "version": "0.0.0",
+  "description": "",
+  "repository": "",
+  "license": "UNLICENSED",
+  "main": "app.js",
+  "scripts": {
+    "lint": "eslint *.js",
+    "release": "release-it"
+  },
+  "author": {
+    "email": "info@redpencil.io",
+    "name": "redpencil.io",
+    "url": "https://redpencil.io"
+  },
+  "dependencies": {
+    "@lblod/mu-auth-sudo": "0.6.1",
+    "semistandard": "^16.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.15.0",
+    "eslint-config-semistandard": "^17.0.0",
+    "release-it": "^15.7.0"
+  }
+}
