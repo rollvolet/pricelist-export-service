@@ -7,15 +7,19 @@ import {
 import { runTask, findActionableTaskQuery } from './lib/task';
 import { parseResult } from './lib/query-utils';
 import exportPricelist from './pricelist-export';
-import { PRICELIST_EXPORT_TASK_OPERATION } from './config';
+import { PRICELIST_EXPORT_TASK_ALL_PROD_OP, PRICELIST_EXPORT_TASK_STOCK_OP } from './config';
 
 const GRAPH = 'http://mu.semte.ch/graphs/rollvolet';
-const actionableTaskQuery = findActionableTaskQuery(PRICELIST_EXPORT_TASK_OPERATION, GRAPH);
+const actionableTaskQuery = findActionableTaskQuery([
+  PRICELIST_EXPORT_TASK_ALL_PROD_OP,
+  PRICELIST_EXPORT_TASK_STOCK_OP ], GRAPH);
 
 // function with the signature that task runner expects
-async function stdExportPricelist() {
-  const file = await exportPricelist(GRAPH);
-  return [file.uri];
+function stdExportPricelist(includeNonListed) {
+  return (async function () {
+    const file = await exportPricelist(includeNonListed, GRAPH);
+    return [file.uri];
+  });
 }
 
 const runPendingTasks = (function (){
@@ -32,7 +36,13 @@ const runPendingTasks = (function (){
         return;
     }
     do {
-      await runTask(actionableTask.uri, GRAPH, stdExportPricelist, querySudo, updateSudo);
+    let includeNonListed;
+      if (actionableTask.operation == PRICELIST_EXPORT_TASK_ALL_PROD_OP) {
+        includeNonListed = true;
+      } else if (actionableTask.operation == PRICELIST_EXPORT_TASK_STOCK_OP) {
+        includeNonListed = false;
+      }
+      await runTask(actionableTask.uri, GRAPH, stdExportPricelist(includeNonListed), querySudo, updateSudo);
       actionableTaskResult = await querySudo(actionableTaskQuery);
       actionableTask = parseResult(actionableTaskResult)[0];
     } while (actionableTask);

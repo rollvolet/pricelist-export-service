@@ -30,6 +30,7 @@ SELECT ?id ?category ?subcategory ?name ?supplier ?ikp ?ikpUnit ?vkp ?vkpIncl ?m
       dct:identifier ?id ;
       ext:purchaseOffering ?purchase ;
       ext:salesOffering ?sales .
+   ${nonListedFilter}
    OPTIONAL {
      ?s gr:category ?subcategoryUri .
      ?subcategoryUri skos:prefLabel ?subcategory .
@@ -89,10 +90,8 @@ function exportFileName() {
   return `pricelist_export_${year}${month}${day}_${hours}${minutes}${seconds}.csv`
 }
 
-export default async function exportPricelist(graph) {
-  // TODO: define how includeNonListed can be provided
-  // function can take inputcontainer as argument
-  const _pricelistQuery = pricelistQuery();
+export default async function exportPricelist(includeNonListed, graph) {
+  const _pricelistQuery = pricelistQuery(includeNonListed);
   const pricelistResult = await querySudo(_pricelistQuery);
   const pricelistCsvResult = sparqlJsonToCsv(pricelistResult);
   const fileName = exportFileName();
