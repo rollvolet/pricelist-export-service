@@ -108,6 +108,6 @@ export default async function exportPricelist(includeNonListed, graph) {
     size: filestats.size,
     created: filestats.birthtime
   };
-  const muFile = await createFile(csvFile, fileToSharedUri(filePath), querySudo, graph);
+  const muFile = await createFile(csvFile, fileUri, querySudo, graph);
   return muFile;
 }
