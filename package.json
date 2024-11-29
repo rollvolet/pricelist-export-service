@@ -1,12 +1,14 @@
 {
   "name": "pricelist-export-service",
-  "version": "0.0.0",
-  "description": "",
-  "repository": "",
-  "license": "UNLICENSED",
+  "version": "1.1.0",
+  "description": "Microservice to export products and their prices to a CSV file",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rollvolet/pricelist-export-service.git"
+  },
+  "license": "MIT",
   "main": "app.js",
   "scripts": {
-    "lint": "eslint *.js",
     "release": "release-it --no-npm"
   },
   "author": {
