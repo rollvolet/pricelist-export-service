@@ -23,7 +23,7 @@ PREFIX pricing: <http://data.rollvolet.be/vocabularies/pricing/>
 PREFIX stock: <http://data.rollvolet.be/vocabularies/stock-management/>
 PREFIX schema: <http://schema.org/>
 
-SELECT ?id ?category ?subcategory ?name ?supplier ?ikp ?ikpUnit ?vkp ?vkpIncl ?margin ?vkpBase ?vkpUnit ?department WHERE {
+SELECT ?id ?category ?subcategory ?name ?supplier ?ikp ?ikpUnit ?vkp ?vkpIncl ?priceLastModification ?margin ?vkpBase ?vkpUnit ?department WHERE {
   GRAPH ?g {
    ?s a gr:SomeItems ;
       gr:name ?name ;
@@ -53,6 +53,9 @@ SELECT ?id ?category ?subcategory ?name ?supplier ?ikp ?ikpUnit ?vkp ?vkpIncl ?m
      ?priceOut gr:valueAddedTaxIncluded "true"^^<http://mu.semte.ch/vocabularies/typed-literals/boolean> .
      OPTIONAL {
        ?priceOut gr:hasCurrencyValue ?vkpIncl .
+     }
+     OPTIONAL {
+       ?priceOut dct:modified ?priceLastModification .
      }
      OPTIONAL {
        ?priceOut pricing:margin ?margin .
